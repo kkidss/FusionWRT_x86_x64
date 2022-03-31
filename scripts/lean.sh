@@ -176,6 +176,45 @@ mkdir package/base-files/files/etc/dropbear/ -p
 echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAqbw4e0dvw+EpgRG5ycjHGBR57uPYYtt7mS7YR5Nt0dmgtB/g2YKUBBJ23Qx/MKva8IRg9SE+8kgRC+lVSQ62BPNlB8AxMCa525ezqIJc0+xq/PyQn/Z+Z6bqFiG2pK7JMx8UyN51Dz0CACFjEgnQo4sTWoRtTlYePFVO8hK1q1Znkpdw+NVOqlIqejnIX/rhIr3tCUPbI+xq9CBcoCwNrwyCZSWhN2znvuI/SqeIENdbIDLewKjgahb09ZNOSdo/ZLF0LM0AugkT9XN9LfFlbAOtKfpIwXWHW/aEfiOWt4I7hrvf8a1bUCwQ4dj3RTLOVUzyP0OPO0ZRa9JQvg/Ihw== ^_^' > package/base-files/files/etc/dropbear/authorized_keys
 chmod 600 package/base-files/files/etc/dropbear/authorized_keys
 
+# add cpuwd
+cat >> package/lean/autocore/files/x86/sbin/cpuwd << kkidsEOF
+#!/bin/sh
+
+Anet=5
+Aip=192.168.5.254
+
+Bnet=6
+Bip=192.168.6.4
+
+ipnetmask=\`ifconfig  | grep "inet addr" | grep 192.168 | awk -F ":" '{print \$2}' | awk -F "." '{print \$3}' | head -n 1\`
+
+if [ \$ipnetmask -eq \${Anet} ]
+    then
+        pve_host=\${Aip}
+    elif [ \$ipnetmask -eq \${Bnet}  ]
+        then
+            pve_host=\${Bip}
+    else
+        exit 0
+fi
+pve_port=22
+
+# TEMP=\`sensors 2>/dev/null | grep 'Core 0' | cut -c15-22\` 
+TEMP=\`sensors 2>/dev/null | grep 'Core 0' | cut -c12-  | awk  -F '°' '{print \$1}' \` || TEMP=0
+if [ ! -z TEMP ] 
+  then
+   TEMP=\`ssh -i /root/.ssh/id_rsa root@\${pve_host} -p \${pve_port} sensors 2>/dev/null|grep ..C|sed -nr 's#^.*:.*\+(.*)..C .*#\1#gp'|sort -nr|head -n1\`
+fi
+
+printf "%-10s %-10s\n" [PVE虚拟机] \$TEMP
+
+#echo \`(ssh -i /root/.ssh/id_rsa root@\${pve_host} sensors) | grep 'Core' | tr -s ' '| cut -d ' ' -f1,2,3\`
+#echo \`(ssh -i /root/.ssh/id_rsa root@\${pve_host} sensors) | grep 'Core' | tr -s ' '| cut -d ' ' -f1,2,3 | sed 's/°C/°C |/g'\`
+#echo \`(ssh -i ~/.ssh/id_rsa root@\${pve_host} -p \${pve_port} sensors 2>/dev/null|grep °C|sed -nr 's#^.*:.*\+(.*)°C .*#\1#gp'|sort -nr|head -n1)\`°C
+#exit 0
+kkidsEOF
+
+
 # modify default index.html
 cat >> index.htm.diff << EOF
 54a55,61
