@@ -176,6 +176,34 @@ mkdir package/base-files/files/etc/dropbear/ -p
 echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAqbw4e0dvw+EpgRG5ycjHGBR57uPYYtt7mS7YR5Nt0dmgtB/g2YKUBBJ23Qx/MKva8IRg9SE+8kgRC+lVSQ62BPNlB8AxMCa525ezqIJc0+xq/PyQn/Z+Z6bqFiG2pK7JMx8UyN51Dz0CACFjEgnQo4sTWoRtTlYePFVO8hK1q1Znkpdw+NVOqlIqejnIX/rhIr3tCUPbI+xq9CBcoCwNrwyCZSWhN2znvuI/SqeIENdbIDLewKjgahb09ZNOSdo/ZLF0LM0AugkT9XN9LfFlbAOtKfpIwXWHW/aEfiOWt4I7hrvf8a1bUCwQ4dj3RTLOVUzyP0OPO0ZRa9JQvg/Ihw== ^_^' > package/base-files/files/etc/dropbear/authorized_keys
 chmod 600 package/base-files/files/etc/dropbear/authorized_keys
 
+# modify default index.html
+cat >> index.htm.diff << EOF
+54a55,61
+> 		local cpu_wd = (luci.sys.exec("cpuwd")) .. "°C"
+> 			if  cpu_wd == "0°C" or cpu_wd == "°C"   then
+> 				cpu_wd= "0°C （无温控或虚拟机）"
+> 			end
+> 
+> 		local ram_size = luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'")
+> 		
+61a69,70
+> 			cpuwd      = cpu_wd,
+> 			ramsize    = ram_size,
+678a688,693
+>         	        if (e = document.getElementById('cpuwd'))
+> 	                        e.innerHTML = info.cpuwd;
+> 
+> 	               if (e = document.getElementById('ramsize'))
+>                                 e.innerHTML =  String.format('%.0f', info.ramsize)+ " <%:MB%>";
+> 
+729a745,746
+> 		<tr><td width="33%"><%:内核温度%></td><td id="cpuwd">-</td></tr>
+> 		<tr><td width="33%"><%:RAM Size%></td><td id="ramsize">-</td></tr>
+733a751
+> 		<tr><td width="33%"><%:Telegram %></td><td><a href="https://t.me/DHDAXCW"><%:电报交流群%></a></td></tr>
+EOF
+patch /package/lean/autocore/files/x86/index.htm < index.htm.diff
+
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.6.1/g' package/base-files/files/bin/config_generate
 sed -i '/uci commit system/i\uci set system.@system[0].hostname='FusionWrt'' package/lean/default-settings/files/zzz-default-settings
