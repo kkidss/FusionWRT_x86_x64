@@ -171,15 +171,20 @@ popd
 # Change default shell to zsh
 sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
 
+# add default ssh 
+mkdir package/base-files/files/etc/dropbear/ -p
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAqbw4e0dvw+EpgRG5ycjHGBR57uPYYtt7mS7YR5Nt0dmgtB/g2YKUBBJ23Qx/MKva8IRg9SE+8kgRC+lVSQ62BPNlB8AxMCa525ezqIJc0+xq/PyQn/Z+Z6bqFiG2pK7JMx8UyN51Dz0CACFjEgnQo4sTWoRtTlYePFVO8hK1q1Znkpdw+NVOqlIqejnIX/rhIr3tCUPbI+xq9CBcoCwNrwyCZSWhN2znvuI/SqeIENdbIDLewKjgahb09ZNOSdo/ZLF0LM0AugkT9XN9LfFlbAOtKfpIwXWHW/aEfiOWt4I7hrvf8a1bUCwQ4dj3RTLOVUzyP0OPO0ZRa9JQvg/Ihw== ^_^' > package/base-files/files/etc/dropbear/authorized_keys
+chmod 600 package/base-files/files/etc/dropbear/authorized_keys
+
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.11.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.6.1/g' package/base-files/files/bin/config_generate
 sed -i '/uci commit system/i\uci set system.@system[0].hostname='FusionWrt'' package/lean/default-settings/files/zzz-default-settings
-sed -i "s/OpenWrt /DHDAXCW @ FusionWrt /g" package/lean/default-settings/files/zzz-default-settings
+sed -i "s/OpenWrt /Kkids @ FusionWrt /g" package/lean/default-settings/files/zzz-default-settings
 
 # Test kernel 5.10
 # sed -i 's/5.4/5.10/g' target/linux/x86/Makefile
 
-echo -e " DHDAXCW's FusionWrt built on "$(date +%Y.%m.%d)"\n -----------------------------------------------------" >> package/base-files/files/etc/banner
+echo -e " Kkids's FusionWrt built on "$(date +%Y.%m.%d)"\n -----------------------------------------------------" >> package/base-files/files/etc/banner
 echo 'net.bridge.bridge-nf-call-iptables=0' >> package/base-files/files/etc/sysctl.conf
 echo 'net.bridge.bridge-nf-call-ip6tables=0' >> package/base-files/files/etc/sysctl.conf
 echo 'net.bridge.bridge-nf-call-arptables=0' >> package/base-files/files/etc/sysctl.conf
