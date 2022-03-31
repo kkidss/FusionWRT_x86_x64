@@ -4,7 +4,9 @@
 - 用户名：root 密码：password  管理IP：192.168.6.1
 - 固件下载地址：https://github.com/kkidss/FusionWRT_x86_x64/releases
 - 固件格式 openwrt-x86-64-generic-squashfs-combined-efi.img.gz  # 看准了！ 
-；- 电报群：https://t.me/DHDAXCW
+<!-- 
+- 电报群：https://t.me/DHDAXCW 
+--!>
 # 插件展示
  ![Alt text](scripts/20.png?raw=true "Title")
 
