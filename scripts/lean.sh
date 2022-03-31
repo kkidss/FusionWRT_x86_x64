@@ -169,7 +169,7 @@ make && sudo make install
 popd
 
 # Change default shell to zsh
-sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
+sed -i 's/\/bin\/ash/\/bin\/bash/g' package/base-files/files/etc/passwd
 
 # add default ssh 
 mkdir package/base-files/files/etc/dropbear/ -p
