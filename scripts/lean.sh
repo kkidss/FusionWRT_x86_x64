@@ -69,6 +69,12 @@ git clone --depth=1 -b master https://github.com/vernesong/OpenClash
 # Add luci-app-ikoolproxy (godproxy)
 git clone --depth=1 https://github.com/iwrt/luci-app-ikoolproxy.git
 
+# Add luci-app-serverchan (serverchan)
+git clone --depth=1 https://github.com/tty228/luci-app-serverchan
+
+# Add luci-app-pushbot (pushbot)
+git clone --depth=1 https://github.com/zzsj0928/luci-app-pushbot
+
 # Add luci-app-dockerman
 rm -rf ../../customfeeds/luci/collections/luci-lib-docker
 rm -rf ../../customfeeds/luci/applications/luci-app-docker
