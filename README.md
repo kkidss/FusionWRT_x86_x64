@@ -6,7 +6,7 @@
 - 固件格式 openwrt-x86-64-generic-squashfs-combined-efi.img.gz  # 看准了！ 
 <!-- 
 - 电报群：https://t.me/DHDAXCW 
---!>
+-->
 
 # 插件展示
  ![Alt text](scripts/20.png?raw=true "Title")
