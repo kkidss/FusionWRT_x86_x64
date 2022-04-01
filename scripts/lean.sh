@@ -213,7 +213,7 @@ printf "%-10s %-10s\n" [PVE虚拟机] \$TEMP
 #echo \`(ssh -i ~/.ssh/id_rsa root@\${pve_host} -p \${pve_port} sensors 2>/dev/null|grep °C|sed -nr 's#^.*:.*\+(.*)°C .*#\1#gp'|sort -nr|head -n1)\`°C
 #exit 0
 kkidsEOF
-
+chmod +x package/lean/autocore/files/x86/sbin/cpuwd
 
 # modify default index.html
 cat >> index.htm.diff << EOF
